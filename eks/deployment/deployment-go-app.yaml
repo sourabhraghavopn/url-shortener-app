@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-app
+  labels:
+    app: go-app
+spec:
+  replicas: 0
+  selector:
+    matchLabels:
+      app: go-app
+  template:
+    metadata:
+      labels:
+        app: go-app
+    spec:
+      containers:
+        - env:
+            - name: PORT
+              value: "8989"
+            - name: DB_HOST
+              value: host.docker.internal
+            - name: FE_APP
+              value: http://localhost:3000
+          image: docker.io/sourabhopn/demo:go-app
+          imagePullPolicy: IfNotPresent
+          name: go-app
+          ports:
+            - containerPort: 8989

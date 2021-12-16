@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-database-admin
+  labels:
+    app: app-database-admin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-database-admin
+  template:
+    metadata:
+      labels:
+        app: app-database-admin
+    spec:
+      containers:
+        - env:
+            - name: PGADMIN_DEFAULT_EMAIL
+              value: pgadmin4@pgadmin.org
+            - name: PGADMIN_DEFAULT_PASSWORD
+              value: admin
+            - name: PGADMIN_CONFIG_SERVER_MODE
+              value: "False"
+          image: dpage/pgadmin4
+          imagePullPolicy: IfNotPresent
+          name: app-database-admin
+          volumeMounts:
+            - mountPath: /var/lib/pgadmin
+              name: pgadmin-data
+          ports:
+            - containerPort: 80
+      volumes:
+        - emptyDir: {}
+          name: pgadmin-data
