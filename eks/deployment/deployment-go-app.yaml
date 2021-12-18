@@ -5,7 +5,7 @@ metadata:
   labels:
     app: go-app
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app: go-app
@@ -15,15 +15,16 @@ spec:
         app: go-app
     spec:
       containers:
-        - env:
+        - name: go-app
+          env:
             - name: PORT
               value: "8989"
             - name: DB_HOST
-              value: host.docker.internal
+              value: "3.144.6.137"
             - name: FE_APP
-              value: http://localhost:3000
-          image: docker.io/sourabhopn/demo:go-app
-          imagePullPolicy: IfNotPresent
-          name: go-app
+              value: http://3.144.6.137:30902
+            - name: DB_PORT
+              value: "30866"
+          image: ghcr.io/sourabhraghavopn/go-app:master
           ports:
             - containerPort: 8989
